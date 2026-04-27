@@ -10,9 +10,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a192f] p-4">
       <div className="text-center space-y-8">
-        <h1 className="text-5xl md:text-7xl font-extrabold text-blue-600 tracking-tight">
+        <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight">
           Hello, Vibe Coder!
         </h1>
         
@@ -20,7 +20,7 @@ const Index = () => {
           <Button 
             onClick={handleWelcomeClick}
             size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-lg rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg border-none"
           >
             Click Me!
           </Button>
