@@ -5,7 +5,8 @@ import Navbar from '@/components/Navbar';
 import SummaryCards from '@/components/SummaryCards';
 import ExpenseForm from '@/components/ExpenseForm';
 import ExpenseTable from '@/components/ExpenseTable';
-import { showSuccess, showError } from '@/utils/toast';
+import ExpenseFilter from '@/components/ExpenseFilter';
+import { showSuccess } from '@/utils/toast';
 import { MadeWithDyad } from '@/components/made-with-dyad';
 
 interface Expense {
@@ -21,6 +22,8 @@ const Index = () => {
     const saved = localStorage.getItem('expenses');
     return saved ? JSON.parse(saved) : [];
   });
+  
+  const [filterCategory, setFilterCategory] = useState("All");
 
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
@@ -35,6 +38,10 @@ const Index = () => {
     setExpenses(expenses.filter(e => e.id !== id));
     showSuccess("Expense deleted.");
   };
+
+  const filteredExpenses = filterCategory === "All" 
+    ? expenses 
+    : expenses.filter(e => e.category === filterCategory);
 
   const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
   
@@ -66,8 +73,14 @@ const Index = () => {
         <ExpenseForm onAdd={handleAddExpense} />
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-slate-800">Recent Transactions</h2>
-          <ExpenseTable expenses={expenses} onDelete={handleDeleteExpense} />
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <h2 className="text-xl font-semibold text-slate-800">Recent Transactions</h2>
+            <ExpenseFilter 
+              selectedCategory={filterCategory} 
+              onCategoryChange={setFilterCategory} 
+            />
+          </div>
+          <ExpenseTable expenses={filteredExpenses} onDelete={handleDeleteExpense} />
         </div>
       </main>
 
