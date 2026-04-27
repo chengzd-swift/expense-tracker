@@ -6,6 +6,7 @@ import SummaryCards from '@/components/SummaryCards';
 import ExpenseForm from '@/components/ExpenseForm';
 import ExpenseTable from '@/components/ExpenseTable';
 import ExpenseFilter from '@/components/ExpenseFilter';
+import ExpenseChart from '@/components/ExpenseChart';
 import { showSuccess } from '@/utils/toast';
 import { MadeWithDyad } from '@/components/made-with-dyad';
 
@@ -69,6 +70,17 @@ const Index = () => {
     })
     .reduce((sum, e) => sum + e.amount, 0);
 
+  // Prepare chart data
+  const categoryTotals = expenses.reduce((acc, expense) => {
+    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const chartData = Object.entries(categoryTotals).map(([category, amount]) => ({
+    category,
+    amount
+  }));
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navbar />
@@ -105,6 +117,8 @@ const Index = () => {
             onDelete={handleDeleteExpense} 
             onEdit={handleEditClick}
           />
+          
+          <ExpenseChart data={chartData} />
         </div>
       </main>
 

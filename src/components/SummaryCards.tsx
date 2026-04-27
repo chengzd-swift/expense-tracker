@@ -11,6 +11,10 @@ interface SummaryProps {
 }
 
 const SummaryCards = ({ total, thisMonth, count }: SummaryProps) => {
+  const formatCurrency = (value: number) => {
+    return `RM ${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <Card className="rounded-2xl border-none shadow-md hover:shadow-lg transition-shadow duration-300 bg-white overflow-hidden">
@@ -22,7 +26,7 @@ const SummaryCards = ({ total, thisMonth, count }: SummaryProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-slate-900">${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          <div className="text-3xl font-bold text-slate-900">{formatCurrency(total)}</div>
           <p className="text-xs text-slate-400 mt-1">Lifetime spending</p>
         </CardContent>
       </Card>
@@ -36,7 +40,7 @@ const SummaryCards = ({ total, thisMonth, count }: SummaryProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="text-3xl font-bold text-slate-900">${thisMonth.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+          <div className="text-3xl font-bold text-slate-900">{formatCurrency(thisMonth)}</div>
           <p className="text-xs text-slate-400 mt-1">Current billing cycle</p>
         </CardContent>
       </Card>
