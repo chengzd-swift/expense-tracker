@@ -24,6 +24,7 @@ const Index = () => {
   });
   
   const [filterCategory, setFilterCategory] = useState("All");
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
 
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
@@ -34,9 +35,23 @@ const Index = () => {
     showSuccess("Expense added successfully!");
   };
 
+  const handleUpdateExpense = (updatedExpense: Expense) => {
+    setExpenses(expenses.map(e => e.id === updatedExpense.id ? updatedExpense : e));
+    setEditingExpense(null);
+    showSuccess("Expense updated successfully!");
+  };
+
   const handleDeleteExpense = (id: string) => {
     setExpenses(expenses.filter(e => e.id !== id));
+    if (editingExpense?.id === id) {
+      setEditingExpense(null);
+    }
     showSuccess("Expense deleted.");
+  };
+
+  const handleEditClick = (expense: Expense) => {
+    setEditingExpense(expense);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const filteredExpenses = filterCategory === "All" 
@@ -70,7 +85,12 @@ const Index = () => {
           count={expenses.length} 
         />
 
-        <ExpenseForm onAdd={handleAddExpense} />
+        <ExpenseForm 
+          onAdd={handleAddExpense} 
+          onUpdate={handleUpdateExpense}
+          editingExpense={editingExpense}
+          onCancelEdit={() => setEditingExpense(null)}
+        />
 
         <div className="space-y-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -80,7 +100,11 @@ const Index = () => {
               onCategoryChange={setFilterCategory} 
             />
           </div>
-          <ExpenseTable expenses={filteredExpenses} onDelete={handleDeleteExpense} />
+          <ExpenseTable 
+            expenses={filteredExpenses} 
+            onDelete={handleDeleteExpense} 
+            onEdit={handleEditClick}
+          />
         </div>
       </main>
 

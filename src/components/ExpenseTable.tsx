@@ -3,7 +3,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from 'lucide-react';
+import { Trash2, Pencil } from 'lucide-react';
 import { Badge } from "@/components/ui/badge";
 
 interface Expense {
@@ -17,6 +17,7 @@ interface Expense {
 interface ExpenseTableProps {
   expenses: Expense[];
   onDelete: (id: string) => void;
+  onEdit: (expense: Expense) => void;
 }
 
 const categoryColors: Record<string, string> = {
@@ -28,7 +29,7 @@ const categoryColors: Record<string, string> = {
   Other: "bg-slate-100 text-slate-700 border-slate-200",
 };
 
-const ExpenseTable = ({ expenses, onDelete }: ExpenseTableProps) => {
+const ExpenseTable = ({ expenses, onDelete, onEdit }: ExpenseTableProps) => {
   if (expenses.length === 0) {
     return (
       <div className="text-center py-12 bg-white rounded-xl border border-dashed border-slate-300">
@@ -46,7 +47,7 @@ const ExpenseTable = ({ expenses, onDelete }: ExpenseTableProps) => {
             <TableHead className="font-bold text-slate-700 py-4">Description</TableHead>
             <TableHead className="font-bold text-slate-700 py-4">Category</TableHead>
             <TableHead className="font-bold text-slate-700 py-4 text-right">Amount</TableHead>
-            <TableHead className="w-[80px]"></TableHead>
+            <TableHead className="w-[100px]"></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -69,7 +70,15 @@ const ExpenseTable = ({ expenses, onDelete }: ExpenseTableProps) => {
                 ${expense.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </TableCell>
               <TableCell>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-1">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => onEdit(expense)}
+                    className="text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
                   <Button 
                     variant="ghost" 
                     size="icon" 
