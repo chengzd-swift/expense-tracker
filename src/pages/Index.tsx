@@ -7,8 +7,10 @@ import ExpenseForm from '@/components/ExpenseForm';
 import ExpenseTable from '@/components/ExpenseTable';
 import ExpenseFilter from '@/components/ExpenseFilter';
 import ExpenseChart from '@/components/ExpenseChart';
-import { showSuccess } from '@/utils/toast';
+import { showSuccess, showError } from '@/utils/toast';
 import { MadeWithDyad } from '@/components/made-with-dyad';
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2 } from 'lucide-react';
 
 interface Expense {
   id: string;
@@ -19,35 +21,89 @@ interface Expense {
 }
 
 const Index = () => {
-  const [expenses, setExpenses] = useState<Expense[]>(() => {
-    const saved = localStorage.getItem('expenses');
-    return saved ? JSON.parse(saved) : [];
-  });
-  
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filterCategory, setFilterCategory] = useState("All");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
 
-  useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses));
-  }, [expenses]);
+  const fetchExpenses = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('expenses')
+        .select('*')
+        .order('date', { ascending: false });
 
-  const handleAddExpense = (newExpense: Expense) => {
-    setExpenses([newExpense, ...expenses]);
-    showSuccess("Expense added successfully!");
-  };
-
-  const handleUpdateExpense = (updatedExpense: Expense) => {
-    setExpenses(expenses.map(e => e.id === updatedExpense.id ? updatedExpense : e));
-    setEditingExpense(null);
-    showSuccess("Expense updated successfully!");
-  };
-
-  const handleDeleteExpense = (id: string) => {
-    setExpenses(expenses.filter(e => e.id !== id));
-    if (editingExpense?.id === id) {
-      setEditingExpense(null);
+      if (error) throw error;
+      setExpenses(data || []);
+    } catch (error: any) {
+      showError("Failed to load expenses: " + error.message);
+    } finally {
+      setLoading(false);
     }
-    showSuccess("Expense deleted.");
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
+
+  const handleAddExpense = async (newExpense: Omit<Expense, 'id'>) => {
+    try {
+      const { data, error } = await supabase
+        .from('expenses')
+        .insert([newExpense])
+        .select();
+
+      if (error) throw error;
+      
+      if (data) {
+        setExpenses([data[0], ...expenses]);
+        showSuccess("Expense added successfully!");
+      }
+    } catch (error: any) {
+      showError("Failed to add expense: " + error.message);
+    }
+  };
+
+  const handleUpdateExpense = async (updatedExpense: Expense) => {
+    try {
+      const { error } = await supabase
+        .from('expenses')
+        .update({
+          description: updatedExpense.description,
+          amount: updatedExpense.amount,
+          category: updatedExpense.category,
+          date: updatedExpense.date
+        })
+        .eq('id', updatedExpense.id);
+
+      if (error) throw error;
+
+      setExpenses(expenses.map(e => e.id === updatedExpense.id ? updatedExpense : e));
+      setEditingExpense(null);
+      showSuccess("Expense updated successfully!");
+    } catch (error: any) {
+      showError("Failed to update expense: " + error.message);
+    }
+  };
+
+  const handleDeleteExpense = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('expenses')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setExpenses(expenses.filter(e => e.id !== id));
+      if (editingExpense?.id === id) {
+        setEditingExpense(null);
+      }
+      showSuccess("Expense deleted.");
+    } catch (error: any) {
+      showError("Failed to delete expense: " + error.message);
+    }
   };
 
   const handleEditClick = (expense: Expense) => {
@@ -91,35 +147,44 @@ const Index = () => {
           <p className="text-slate-500">Track and manage your daily spending</p>
         </header>
 
-        <SummaryCards 
-          total={totalExpenses} 
-          thisMonth={thisMonthExpenses} 
-          count={expenses.length} 
-        />
-
-        <ExpenseForm 
-          onAdd={handleAddExpense} 
-          onUpdate={handleUpdateExpense}
-          editingExpense={editingExpense}
-          onCancelEdit={() => setEditingExpense(null)}
-        />
-
-        <div className="space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-slate-800">Recent Transactions</h2>
-            <ExpenseFilter 
-              selectedCategory={filterCategory} 
-              onCategoryChange={setFilterCategory} 
-            />
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20 space-y-4">
+            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
+            <p className="text-slate-500 font-medium">Loading your expenses...</p>
           </div>
-          <ExpenseTable 
-            expenses={filteredExpenses} 
-            onDelete={handleDeleteExpense} 
-            onEdit={handleEditClick}
-          />
-          
-          <ExpenseChart data={chartData} />
-        </div>
+        ) : (
+          <>
+            <SummaryCards 
+              total={totalExpenses} 
+              thisMonth={thisMonthExpenses} 
+              count={expenses.length} 
+            />
+
+            <ExpenseForm 
+              onAdd={handleAddExpense} 
+              onUpdate={handleUpdateExpense}
+              editingExpense={editingExpense}
+              onCancelEdit={() => setEditingExpense(null)}
+            />
+
+            <div className="space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <h2 className="text-xl font-semibold text-slate-800">Recent Transactions</h2>
+                <ExpenseFilter 
+                  selectedCategory={filterCategory} 
+                  onCategoryChange={setFilterCategory} 
+                />
+              </div>
+              <ExpenseTable 
+                expenses={filteredExpenses} 
+                onDelete={handleDeleteExpense} 
+                onEdit={handleEditClick}
+              />
+              
+              <ExpenseChart data={chartData} />
+            </div>
+          </>
+        )}
       </main>
 
       <footer className="py-8">
