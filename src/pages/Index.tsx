@@ -10,6 +10,7 @@ import ExpenseChart from '@/components/ExpenseChart';
 import { showSuccess, showError } from '@/utils/toast';
 import { MadeWithDyad } from '@/components/made-with-dyad';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/context/AuthContext';
 import { Loader2 } from 'lucide-react';
 
 interface Expense {
@@ -18,20 +19,25 @@ interface Expense {
   amount: number;
   category: string;
   date: string;
+  user_id?: string;
 }
 
 const Index = () => {
+  const { user } = useAuth();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterCategory, setFilterCategory] = useState("All");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
 
   const fetchExpenses = async () => {
+    if (!user) return;
+    
     try {
       setLoading(true);
       const { data, error } = await supabase
         .from('expenses')
         .select('*')
+        .eq('user_id', user.id)
         .order('date', { ascending: false });
 
       if (error) throw error;
@@ -45,17 +51,21 @@ const Index = () => {
 
   useEffect(() => {
     fetchExpenses();
-  }, []);
+  }, [user]);
 
   const handleAddExpense = async (newExpense: Expense) => {
+    if (!user) return;
+
+    const expenseWithUser = { ...newExpense, user_id: user.id };
+
     try {
       const { error } = await supabase
         .from('expenses')
-        .insert([newExpense]);
+        .insert([expenseWithUser]);
 
       if (error) throw error;
       
-      setExpenses([newExpense, ...expenses]);
+      setExpenses([expenseWithUser, ...expenses]);
       showSuccess("Expense added successfully!");
     } catch (error: any) {
       showError("Failed to add expense: " + error.message);
@@ -63,11 +73,14 @@ const Index = () => {
   };
 
   const handleUpdateExpense = async (updatedExpense: Expense) => {
+    if (!user) return;
+
     try {
       const { error } = await supabase
         .from('expenses')
         .update(updatedExpense)
-        .eq('id', updatedExpense.id);
+        .eq('id', updatedExpense.id)
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
@@ -80,11 +93,14 @@ const Index = () => {
   };
 
   const handleDeleteExpense = async (id: string) => {
+    if (!user) return;
+
     try {
       const { error } = await supabase
         .from('expenses')
         .delete()
-        .eq('id', id);
+        .eq('id', id)
+        .eq('user_id', user.id);
 
       if (error) throw error;
 
