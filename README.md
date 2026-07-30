@@ -88,17 +88,6 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ### 5. Run the development server
 npm run dev
 
-The application will run locally at:
-
-http://localhost:5173
-
-Example:
-
-Login Page
-Dashboard
-Add Expense Form
-Transaction Management Table
-
 ---
 
 🎯 Learning Outcomes
