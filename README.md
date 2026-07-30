@@ -65,41 +65,6 @@ This project was developed using **React (TypeScript)** with the assistance of t
 
 ---
 
-## 🚀 Installation & Setup
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/myexpenses.git
-```
-
-### 2. Navigate to the project directory
-
-```bash
-cd myexpenses
-```
-
-### 3. Install dependencies
-
-```bash
-npm install
-```
-
-### 4. Configure environment variables
-
-Create a `.env` file in the root directory and add your Supabase configuration:
-
-```env
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### 5. Run the development server
-
-```bash
-npm run dev
-```
-
 ## 🎯 Learning Outcomes
 
 Through this project, I gained practical experience in:
