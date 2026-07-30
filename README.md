@@ -82,8 +82,7 @@ Through this project, I gained practical experience in:
 
 **Cheng Zheng De**
 
-Bachelor of Information Systems (Honours)  
-Business Information Systems
+Bachelor of Information Systems (Honours) Business Information Systems
 
 ---
 
