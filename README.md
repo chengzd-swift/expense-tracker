@@ -72,20 +72,20 @@ The project was developed using **React (TypeScript)** with the assistance of th
 ## 🚀 Installation & Setup
 
 ### 1. Clone the repository
-
-```bash
 git clone https://github.com/yourusername/myexpenses.git
-2. Navigate to project directory
+
+### 2. Navigate to project directory
 cd myexpenses
-3. Install dependencies
+
+### 3. Install dependencies
 npm install
-4. Configure environment variables
 
+### 4. Configure environment variables
 Create a .env file in the root directory:
-
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-5. Run the development server
+
+### 5. Run the development server
 npm run dev
 
 The application will run locally at:
@@ -99,6 +99,8 @@ Dashboard
 Add Expense Form
 Transaction Management Table
 
+---
+
 🎯 Learning Outcomes
 
 Through this project, I gained practical experience in:
@@ -110,12 +112,16 @@ Managing application state and user interactions
 Deploying a production-ready application using Vercel
 Applying AI-assisted development practices through DYAD vibe coding
 
+---
+
 👨‍💻 Developer
 
 Cheng Zheng De
 
 Bachelor of Information Systems (Honours)
 Business Information Systems
+
+---
 
 📄 License
 
