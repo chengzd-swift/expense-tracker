@@ -1,12 +1,8 @@
-# Welcome to your Dyad app
-
 # 💰 MyExpenses - Personal Finance Expense Tracker
 
-MyExpenses is a modern full-stack personal finance web application designed to help users efficiently track, categorize, and manage their daily expenses. The application provides an intuitive dashboard, secure user authentication, and persistent cloud-based data storage, allowing users to manage their financial records anytime and anywhere.
+MyExpenses is a modern full-stack personal finance web application designed to help users efficiently track, categorize, and manage their daily expenses through an intuitive and responsive interface. The application provides users with a personalized financial dashboard, secure authentication, and cloud-based data storage, allowing them to manage their financial records anytime and anywhere.
 
-
-The project was developed using **React (TypeScript)** with the assistance of the **DYAD vibe coding tool** to accelerate development and improve productivity while maintaining a clean and modular application structure.
-
+This project was developed using **React (TypeScript)** with the assistance of the **DYAD Vibe Coding Tool** to accelerate the development process while maintaining a clean, modular, and scalable application structure.
 
 ---
 
@@ -15,36 +11,36 @@ The project was developed using **React (TypeScript)** with the assistance of th
 ### 🔐 User Authentication
 - Secure user registration and login system
 - Sign-in and sign-out functionality
-- User-specific expense data management powered by Supabase authentication
+- User-specific expense data management using Supabase Authentication
 
 ### 📊 Financial Dashboard
 - Real-time expense summary dashboard
-- Displays:
+- Displays key financial insights:
   - Total expenses
   - Monthly spending
   - Total transaction count
-- Provides users with quick insights into their spending habits
+- Helps users monitor and understand their spending patterns
 
 ### 📝 Expense Management
 - Add, categorize, and manage daily expenses
-- Supported expense categories:
+- Supports multiple expense categories:
   - 🍔 Food
   - 🚗 Transport
   - 🏥 Health
   - 🛒 Shopping
   - 📌 Others
 - Integrated date picker for accurate transaction tracking
-- Input validation to ensure data consistency
+- Built-in validation to ensure reliable data input
 
 ### 📋 Transaction Records
 - View all recorded expenses in an organized table format
-- Filter and review expense information
-- Delete unnecessary transactions
-- Persistent storage using Supabase database
+- Review transaction details including category, amount, and date
+- Delete unnecessary expense records
+- Persistent cloud data storage using Supabase Database
 
 ### ☁️ Deployment
-- Deployed using Vercel for public accessibility
-- Optimized for modern web browsers and responsive devices
+- Deployed using **Vercel** for public accessibility
+- Optimized for responsive usage across modern web browsers and devices
 
 ---
 
@@ -62,7 +58,7 @@ The project was developed using **React (TypeScript)** with the assistance of th
 - PostgreSQL Database
 - Supabase Authentication
 
-### Development Tools
+### Development Tools & Deployment
 - DYAD Vibe Coding Tool
 - Git & GitHub
 - Vercel Deployment
@@ -72,46 +68,60 @@ The project was developed using **React (TypeScript)** with the assistance of th
 ## 🚀 Installation & Setup
 
 ### 1. Clone the repository
-git clone https://github.com/yourusername/myexpenses.git
 
-### 2. Navigate to project directory
+```bash
+git clone https://github.com/yourusername/myexpenses.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
 cd myexpenses
+```
 
 ### 3. Install dependencies
+
+```bash
 npm install
+```
 
 ### 4. Configure environment variables
-Create a .env file in the root directory:
+
+Create a `.env` file in the root directory and add your Supabase configuration:
+
+```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 ### 5. Run the development server
+
+```bash
 npm run dev
+```
 
----
-
-### 🎯 Learning Outcomes
+## 🎯 Learning Outcomes
 
 Through this project, I gained practical experience in:
 
-- Building a full-stack web application using React and TypeScript
-- Implementing authentication and database integration using Supabase
-- Designing responsive user interfaces with modern UI principles
+- Developing a full-stack web application using React and TypeScript
+- Implementing user authentication and database integration with Supabase
+- Designing responsive and user-friendly interfaces
 - Managing application state and user interactions
 - Deploying a production-ready application using Vercel
-- Applying AI-assisted development practices through DYAD vibe coding
+- Applying AI-assisted development practices through the DYAD Vibe Coding Tool
 
 ---
 
-### 👨‍💻 Developer
+## 👨‍💻 Developer
 
-Cheng Zheng De
+**Cheng Zheng De**
 
-Bachelor of Information Systems (Honours)
+Bachelor of Information Systems (Honours)  
 Business Information Systems
 
 ---
 
-### 📄 License
+## 📄 License
 
 This project is developed for educational and portfolio purposes.
