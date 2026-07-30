@@ -90,20 +90,20 @@ npm run dev
 
 ---
 
-🎯 Learning Outcomes
+### 🎯 Learning Outcomes
 
 Through this project, I gained practical experience in:
 
-Building a full-stack web application using React and TypeScript
-Implementing authentication and database integration using Supabase
-Designing responsive user interfaces with modern UI principles
-Managing application state and user interactions
-Deploying a production-ready application using Vercel
-Applying AI-assisted development practices through DYAD vibe coding
+- Building a full-stack web application using React and TypeScript
+- Implementing authentication and database integration using Supabase
+- Designing responsive user interfaces with modern UI principles
+- Managing application state and user interactions
+- Deploying a production-ready application using Vercel
+- Applying AI-assisted development practices through DYAD vibe coding
 
 ---
 
-👨‍💻 Developer
+### 👨‍💻 Developer
 
 Cheng Zheng De
 
@@ -112,6 +112,6 @@ Business Information Systems
 
 ---
 
-📄 License
+### 📄 License
 
 This project is developed for educational and portfolio purposes.
